@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Tyche</string>
+    <string name="button_add_option">Add Option</string>
+    <string name="add_option">Edit Option</string>
+    <string name="button_random">Choose Randomly</string>
+    <string name="button_reset">Reset Options</string>
+</resources>
