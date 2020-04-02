@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, optionValues)
         optionListView.adapter = adapter
+        optionListView.dividerHeight = 5
     }
 
     fun addOption(view: View) {
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     fun chooseRandomly(view: View) {
         if(optionValues.size > 0) {
-            for(i in (0 until (optionValues.size - 1)))
+            for(i in (0 until optionValues.size ))
                 optionListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT)
 
             val selected = (0 until optionValues.size).random()
