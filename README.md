@@ -5,8 +5,9 @@ Basic Android App to support you in your decision making.
 Can't decide what to have for dinner? Let the god of destiny and fortune help you:
 ![Demo](./demo.gif)
 
-## Usage
-Clone this repository, open in Android Studio and build or download pre-build apk from the realese page.
+## Install
+Clone repo, open in [Android Studio](https://developer.android.com/studio/) and build.
+Or grab a pre-build apk from the release page.
 
 ### Credit
 Icons made by [Dimi Kazak](https://www.flaticon.com/authors/dimi-kazak) from [Flaticon](https://www.flaticon.com/)
