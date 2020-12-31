@@ -1,53 +1,69 @@
 package de.dechasa.tyche
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var optionListView : ListView
-    private lateinit var adapter : ArrayAdapter<String>
-
-    private var optionValues = ArrayList<String>()
+    private lateinit var optionListView : RecyclerView
+    private lateinit var adapter : OptionAdapter
+    private lateinit var edOption: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        optionListView = findViewById<ListView>(R.id.optionListView)
+        optionListView = findViewById(R.id.rvOptions)
+        edOption = findViewById(R.id.edAddOption)
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, optionValues)
+        adapter = OptionAdapter(ArrayList(), this)
         optionListView.adapter = adapter
-        optionListView.dividerHeight = 5
+        optionListView.layoutManager = LinearLayoutManager(applicationContext)
+        optionListView.itemAnimator = DefaultItemAnimator()
+        optionListView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+
+        val swipeListener = ItemTouchHelper(SwipeCallback(adapter))
+        swipeListener.attachToRecyclerView(optionListView)
+
+
+        edOption.setOnEditorActionListener { _, _, event ->
+            if (event == null) {
+                onClickAddOption(null)
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
     }
 
-    fun addOption(view: View) {
-        val inputText = findViewById<EditText>(R.id.add_text)
+    fun onClickAddOption(view: View?) {
+        val inputText = findViewById<EditText>(R.id.edAddOption)
         val input = inputText.text.toString()
         if(input.isNotEmpty()) {
-            optionValues.add(input)
+            adapter.options.add(input)
             inputText.setText("")
             adapter.notifyDataSetChanged()
         }
     }
 
-    fun resetOptions(view: View){
-        optionValues.clear()
-        adapter.notifyDataSetChanged()
+    fun onClickReset(view: View){
+        adapter.clear()
     }
 
-    fun chooseRandomly(view: View) {
-        if(optionValues.size > 0) {
-            for(i in (0 until optionValues.size ))
-                optionListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT)
+    fun onClickRandom(view: View) {
+        val optionValues = adapter.options
 
+        if(optionValues.size > 0) {
             val selected = (0 until optionValues.size).random()
-            optionListView.getChildAt(selected).setBackgroundColor(Color.GREEN)
+            adapter.setSelected(selected)
         }
     }
 }
